@@ -1,5 +1,6 @@
-import { ArrowRight, Bell, ChevronDown, Menu, Search, Plus, User, MessageSquare, Home, LayoutGrid, ShieldCheck, Star } from 'lucide-react';
+import type { ReactNode } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { Bell, ChevronDown, Menu, Plus, Search, ShieldCheck, Star } from 'lucide-react';
 import { useAuthContext } from '../../context/AuthContext';
 
 const navLinks = [
@@ -135,7 +136,7 @@ export function LoadingState({ label = 'Loading...' }: { label?: string }) {
   return <div className="loading-state">{label}</div>;
 }
 
-export function Badge({ children, variant = 'default' }: { children: React.ReactNode; variant?: 'default' | 'success' | 'warning' | 'danger' | 'info' }) {
+export function Badge({ children, variant = 'default' }: { children: ReactNode; variant?: 'default' | 'success' | 'warning' | 'danger' | 'info' }) {
   const classes = {
     default: 'badge',
     success: 'badge badge-success',
@@ -149,7 +150,7 @@ export function Badge({ children, variant = 'default' }: { children: React.React
 export function RatingStars({ rating }: { rating: number }) {
   return (
     <div className="rating-row" aria-label={`Rated ${rating} out of 5`}>
-      {[1,2,3,4,5].map(star => (
+      {[1, 2, 3, 4, 5].map(star => (
         <Star
           key={star}
           size={14}
@@ -171,7 +172,11 @@ export function UserAvatar({ user }: { user?: { name: string; avatar?: string; v
   );
 }
 
-export function Button({ children, variant = 'primary', ...props }: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: 'primary' | 'secondary' | 'success' | 'ghost' }) {
+export function Button({
+  children,
+  variant = 'primary',
+  ...props
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: 'primary' | 'secondary' | 'success' | 'ghost' }) {
   return (
     <button className={`btn btn-${variant}`} {...props}>{children}</button>
   );
@@ -186,7 +191,7 @@ export function Modal({
   open: boolean;
   title: string;
   onClose: () => void;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   if (!open) return null;
 
@@ -205,7 +210,6 @@ export function Modal({
 
 export function Toast({ message, visible }: { message: string; visible: boolean }) {
   if (!visible || !message) return null;
-
   return <div className="toast">{message}</div>;
 }
 
@@ -240,9 +244,6 @@ export function TextArea({ label, ...props }: React.TextareaHTMLAttributes<HTMLT
   );
 }
 
-export function LayoutWrapper({ children }: { children: React.ReactNode }) {
+export function LayoutWrapper({ children }: { children: ReactNode }) {
   return <div className="app-shell">{children}</div>;
 }
-
-export { ArrowRight, Bell, ChevronDown, Menu, Search, Plus, User, MessageSquare, Home, LayoutGrid };
-
