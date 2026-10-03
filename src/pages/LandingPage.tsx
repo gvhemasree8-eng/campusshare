@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, ShieldCheck, Star } from 'lucide-react';
-import { SearchBar } from '../layout/Navbar';
-import { getItems } from '../../utils/storage';
-import { CATEGORIES } from '../../utils/helpers';
+import { SearchBar } from '../components/layout/Navbar';
+import { getItems } from '../utils/storage';
+import { CATEGORIES } from '../utils/helpers';
 
 export default function LandingPage() {
   const items = getItems().slice(0, 4);
@@ -78,13 +78,27 @@ export default function LandingPage() {
             <p className="eyebrow">How it works</p>
             <h2>Simple steps from request to return</h2>
           </div>
-          <div className="steps-grid">
-            {['Find an item', 'Send a request', 'Connect with the owner', 'Borrow or rent', 'Return and review'].map((step, index) => (
-              <div key={step} className="step-card card">
-                <span className="step-no">0{index + 1}</span>
-                <h3>{step}</h3>
-              </div>
-            ))}
+          <div className="how-it-works-grid">
+            <div className="step-card card">
+              <div className="step-badge">1</div>
+              <h3>Search & Find</h3>
+              <p>Browse thousands of items shared by your campus peers.</p>
+            </div>
+            <div className="step-card card">
+              <div className="step-badge">2</div>
+              <h3>Request & Chat</h3>
+              <p>Message the owner to confirm availability and details.</p>
+            </div>
+            <div className="step-card card">
+              <div className="step-badge">3</div>
+              <h3>Borrow or Rent</h3>
+              <p>Set dates and payment terms that work for both of you.</p>
+            </div>
+            <div className="step-card card">
+              <div className="step-badge">4</div>
+              <h3>Return & Review</h3>
+              <p>Return the item and leave a review to build community trust.</p>
+            </div>
           </div>
         </div>
       </section>
@@ -94,68 +108,72 @@ export default function LandingPage() {
           <div className="section-head">
             <div>
               <p className="eyebrow">Featured items</p>
-              <h2>Popular on campus right now</h2>
+              <h2>What's trending right now</h2>
             </div>
+            <Link to="/browse" className="see-all">See all →</Link>
           </div>
-          <div className="card-grid">
+          <div className="item-grid">
             {items.map(item => (
-              <div key={item.id} className="item-card card">
-                <div className="item-card-image">{item.images[0]}</div>
+              <article key={item.id} className="item-card card">
+                <div className="item-card-image">{item.images[0] || '📦'}</div>
                 <div className="item-card-body">
                   <div className="item-card-topline">
                     <span className="category-tag">{item.category}</span>
-                    <span className="status-tag available">Available</span>
+                    <span className={`status-tag ${item.available ? 'available' : 'unavailable'}`}>{item.available ? 'Available' : 'Unavailable'}</span>
                   </div>
                   <h3>{item.title}</h3>
-                  <div className="owner-row">
-                    <span className="owner-avatar">👤</span>
-                    <span>Owner: Alex</span>
-                  </div>
-                  <div className="rating-row">
-                    <Star size={14} fill="#fbbf24" color="#fbbf24" />
-                    <span>4.8</span>
+                  <p className="muted-line">{item.description.slice(0, 80)}...</p>
+                  <div className="meta-row small-row">
+                    <span>Condition: {item.condition}</span>
+                    <span>{item.location}</span>
                   </div>
                   <div className="price-row">
-                    <strong>${item.rentalPrice ?? 10}</strong>
+                    <strong>${item.rentalPrice ?? 0}</strong>
                     <span>/ day</span>
                   </div>
                   <Link to={`/items/${item.id}`} className="btn btn-primary full-width">View Details</Link>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
         </div>
       </section>
 
       <section className="page-section soft-bg">
-        <div className="container trust-grid">
-          <div>
-            <p className="eyebrow">Trust & safety</p>
-            <h2>Built to feel secure for every campus exchange</h2>
-            <ul className="check-list">
-              <li><ShieldCheck size={18} /> Verified student profiles</li>
-              <li><ShieldCheck size={18} /> Transparent reviews and ratings</li>
-              <li><ShieldCheck size={18} /> Secure communication before handoff</li>
-            </ul>
+        <div className="container">
+          <div className="section-head align-center">
+            <p className="eyebrow">Why students trust CampusShare</p>
+            <h2>Built for campus communities</h2>
           </div>
-          <div className="stats-grid">
-            <div className="stat-card card"><strong>12K+</strong><span>Verified students</span></div>
-            <div className="stat-card card"><strong>4.9/5</strong><span>Average rating</span></div>
-            <div className="stat-card card"><strong>7.5K</strong><span>Successful swaps</span></div>
-            <div className="stat-card card"><strong>92%</strong><span>Repeat users</span></div>
+          <div className="trust-grid">
+            <div className="trust-card card">
+              <ShieldCheck className="trust-icon" size={32} />
+              <h3>Verified students</h3>
+              <p>All users are verified members of campus communities.</p>
+            </div>
+            <div className="trust-card card">
+              <Star className="trust-icon" size={32} />
+              <h3>Community reviews</h3>
+              <p>Real feedback from real transactions builds trust.</p>
+            </div>
+            <div className="trust-card card">
+              <ShieldCheck className="trust-icon" size={32} />
+              <h3>Protected payments</h3>
+              <p>Secure transactions with dispute resolution support.</p>
+            </div>
           </div>
         </div>
       </section>
 
       <section className="page-section">
-        <div className="container cta-panel card">
-          <div>
-            <p className="eyebrow">Ready to get started?</p>
-            <h2>Borrow smarter. Share more.</h2>
-          </div>
-          <div className="cta-row">
-            <Link to="/browse" className="btn btn-primary">Find an Item</Link>
-            <Link to="/post-item" className="btn btn-secondary">Share an Item</Link>
+        <div className="container cta-container">
+          <div className="cta-content">
+            <h2>Ready to start sharing?</h2>
+            <p>Join your campus community and get connected.</p>
+            <div className="cta-actions">
+              <Link to="/signup" className="btn btn-primary">Create Account</Link>
+              <Link to="/browse" className="btn btn-secondary">Browse Items</Link>
+            </div>
           </div>
         </div>
       </section>
