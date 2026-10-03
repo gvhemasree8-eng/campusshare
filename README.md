@@ -1,2 +1,2 @@
-# campusshare
-A modern student-focused platform for borrowing, renting, lending, and reusing items within a college community
+# CampusShare
+A modern campus lending and borrowing web app for students to borrow, rent, and share everyday items.
